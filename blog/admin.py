@@ -8,17 +8,17 @@ class PostAdmin(SummernoteModelAdmin):
 
     list_display = ('title', 'slug', 'status', 'created_on')
     search_fields = ['title', 'content']
+    list_filter = ('status', 'created_on')
     prepopulated_fields = {'slug': ('title',)}
-    list_filter = ('status', 'created_on', 'title', 'slug')
-    summernote_fields = ('content')
+    summernote_fields = ('content',)
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('name', 'body', 'post', 'created_on', 'approved')
     list_filter = ('approved', 'created_on')
-    search_fields = ('name', 'email_address', 'body')
+    search_fields = ('name', 'email', 'body')
     actions = ['approve_comments']
 
     def approve_comments(self, request, queryset):
-        queryset.updated(approved=True)
+        queryset.update(approved=True)
